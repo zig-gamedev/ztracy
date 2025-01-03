@@ -58,7 +58,7 @@ pub fn build(b: *std.Build) void {
             .target = target,
             .optimize = optimize,
         });
-        lib.defineCMacro("TRACY_EXPORTS", "");
+        lib.root_module.addCMacro("TRACY_EXPORTS", "");
         break :blk lib;
     } else b.addStaticLibrary(.{
         .name = "tracy",
@@ -76,13 +76,13 @@ pub fn build(b: *std.Build) void {
         },
     });
 
-    if (options.on_demand) tracy.defineCMacro("TRACY_ON_DEMAND", null);
+    if (options.on_demand) tracy.root_module.addCMacro("TRACY_ON_DEMAND", "");
 
     tracy.linkLibC();
     if (target.result.abi != .msvc) {
         tracy.linkLibCpp();
     } else {
-        tracy.defineCMacro("fileno", "_fileno");
+        tracy.root_module.addCMacro("fileno", "_fileno");
     }
 
     switch (target.result.os.tag) {
