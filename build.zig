@@ -20,6 +20,11 @@ pub fn build(b: *std.Build) void {
             "on_demand",
             "Build tracy with TRACY_ON_DEMAND",
         ) orelse false,
+        .callstack = b.option(
+            u32,
+            "callstack",
+            "If > 0, Builds tracy with TRACY_USE_CALLSTACK and sets TRACY_CALLSTACK to the depth provided.",
+        ) orelse 0,
         .shared = b.option(
             bool,
             "shared",
@@ -43,6 +48,12 @@ pub fn build(b: *std.Build) void {
     translate_c.addIncludePath(b.path("libs/tracy/tracy"));
     translate_c.defineCMacro("TRACY_ENABLE", "");
     translate_c.defineCMacro("TRACY_IMPORTS", "");
+    if (options.callstack > 0) {
+        translate_c.defineCMacro("TRACY_USE_CALLSTACK", "");
+        var callstack_buffer: [64]u8 = undefined;
+        const callstack = std.fmt.bufPrintIntToSlice(&callstack_buffer, @as(u32, options.callstack), 10, .lower, .{});
+        translate_c.defineCMacro("TRACY_CALLSTACK", callstack);
+    }
 
     const ztracy = b.addModule("root", .{
         .root_source_file = b.path("src/ztracy.zig"),
