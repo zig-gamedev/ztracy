@@ -51,8 +51,8 @@ pub fn build(b: *std.Build) void {
     if (options.callstack > 0) {
         translate_c.defineCMacro("TRACY_USE_CALLSTACK", "");
         var callstack_buffer: [64]u8 = undefined;
-        const callstack = std.fmt.bufPrintIntToSlice(&callstack_buffer, @as(u32, options.callstack), 10, .lower, .{});
-        translate_c.defineCMacro("TRACY_CALLSTACK", callstack);
+        const callstack_str_len = std.fmt.printInt(&callstack_buffer, @as(u32, options.callstack), 10, .lower, .{});
+        translate_c.defineCMacro("TRACY_CALLSTACK", callstack_buffer[0..callstack_str_len]);
     }
 
     const ztracy = b.addModule("root", .{
@@ -63,19 +63,18 @@ pub fn build(b: *std.Build) void {
     });
     ztracy.addImport("c", translate_c.createModule());
 
-    const tracy = if (options.shared) blk: {
-        const lib = b.addSharedLibrary(.{
-            .name = "tracy",
+    const tracy = b.addLibrary(.{
+        .name = "tracy",
+        .linkage = if (options.shared) .dynamic else .static,
+        .root_module = b.createModule(.{
             .target = target,
             .optimize = optimize,
-        });
-        lib.root_module.addCMacro("TRACY_EXPORTS", "");
-        break :blk lib;
-    } else b.addStaticLibrary(.{
-        .name = "tracy",
-        .target = target,
-        .optimize = optimize,
+        }),
     });
+
+    if (options.shared) {
+        tracy.root_module.addCMacro("TRACY_EXPORTS", "");
+    }
 
     tracy.addIncludePath(b.path("libs/tracy/tracy"));
     tracy.addCSourceFile(.{
@@ -115,9 +114,11 @@ pub fn build(b: *std.Build) void {
 
     const tests = b.addTest(.{
         .name = "ztracy-tests",
-        .root_source_file = b.path("src/ztracy.zig"),
-        .target = target,
-        .optimize = optimize,
+        .root_module = b.createModule(.{
+            .root_source_file = b.path("src/ztracy.zig"),
+            .target = target,
+            .optimize = optimize,
+        }),
     });
     tests.linkLibrary(tracy);
     b.installArtifact(tests);
