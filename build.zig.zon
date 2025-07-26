@@ -1,8 +1,8 @@
 .{
     .name = .ztracy,
     .fingerprint = 0xf803f1f7ab5272cc,
-    .version = "0.14.0-dev",
-    .minimum_zig_version = "0.14.0",
+    .version = "0.15.0-dev",
+    .minimum_zig_version = "0.15.0-dev.1230+cf9db9c7b",
     .paths = .{
         "build.zig",
         "build.zig.zon",
