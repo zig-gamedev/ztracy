@@ -80,12 +80,12 @@ pub fn build(b: *std.Build) void {
     tracy.addCSourceFile(.{
         .file = b.path("libs/tracy/TracyClient.cpp"),
         .flags = &.{
-            if (options.enable_ztracy) "-DTRACY_ENABLE" else "",
-            if (options.enable_fibers) "-DTRACY_FIBERS" else "",
             "-fno-sanitize=undefined",
         },
     });
 
+    if (options.enable_ztracy) tracy.root_module.addCMacro("TRACY_ENABLE", "");
+    if (options.enable_fibers) tracy.root_module.addCMacro("TRACY_FIBERS", "");
     if (options.on_demand) tracy.root_module.addCMacro("TRACY_ON_DEMAND", "");
 
     tracy.linkLibC();
