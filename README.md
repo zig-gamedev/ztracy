@@ -1,6 +1,6 @@
 # [ztracy](https://github.com/zig-gamedev/ztracy)
 
-Performance markers for [Tracy 0.11.1](https://github.com/wolfpld/tracy) in Zig
+Performance markers for [Tracy 0.12.4](https://github.com/wolfpld/tracy) in Zig
 
 Initial Zig bindings created by [Martin Wickham](https://github.com/SpexGuy/Zig-Tracy)
 
