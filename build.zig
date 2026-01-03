@@ -76,8 +76,8 @@ pub fn build(b: *std.Build) void {
         tracy.root_module.addCMacro("TRACY_EXPORTS", "");
     }
 
-    tracy.addIncludePath(b.path("libs/tracy/tracy"));
-    tracy.addCSourceFile(.{
+    tracy.root_module.addIncludePath(b.path("libs/tracy/tracy"));
+    tracy.root_module.addCSourceFile(.{
         .file = b.path("libs/tracy/TracyClient.cpp"),
         .flags = &.{
             "-fno-sanitize=undefined",
@@ -88,21 +88,21 @@ pub fn build(b: *std.Build) void {
     if (options.enable_fibers) tracy.root_module.addCMacro("TRACY_FIBERS", "");
     if (options.on_demand) tracy.root_module.addCMacro("TRACY_ON_DEMAND", "");
 
-    tracy.linkLibC();
+    tracy.root_module.link_libc = true;
     if (target.result.abi != .msvc) {
-        tracy.linkLibCpp();
+        tracy.root_module.link_libcpp = true;
     } else {
         tracy.root_module.addCMacro("fileno", "_fileno");
     }
 
     switch (target.result.os.tag) {
         .windows => {
-            tracy.linkSystemLibrary("ws2_32");
-            tracy.linkSystemLibrary("dbghelp");
+            tracy.root_module.linkSystemLibrary("ws2_32", .{});
+            tracy.root_module.linkSystemLibrary("dbghelp", .{});
         },
         .macos => {
             if (b.lazyDependency("system_sdk", .{})) |system_sdk| {
-                tracy.addFrameworkPath(system_sdk.path("System/Library/Frameworks"));
+                tracy.root_module.addFrameworkPath(system_sdk.path("System/Library/Frameworks"));
             }
         },
         else => {},
@@ -120,7 +120,7 @@ pub fn build(b: *std.Build) void {
             .optimize = optimize,
         }),
     });
-    tests.linkLibrary(tracy);
+    tests.root_module.linkLibrary(tracy);
     b.installArtifact(tests);
 
     test_step.dependOn(&b.addRunArtifact(tests).step);
