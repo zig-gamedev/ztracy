@@ -119,6 +119,10 @@ pub fn build(b: *std.Build) void {
             .target = target,
             .optimize = optimize,
         }),
+        // https://codeberg.org/ziglang/zig/issues/31272#issuecomment-14606517
+        // R_X86_64_PC64 .sframe relocation in 0.16.0
+        .use_llvm = true,
+        .use_lld = true,
     });
     tests.root_module.linkLibrary(tracy);
     b.installArtifact(tests);
