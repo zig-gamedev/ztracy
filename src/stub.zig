@@ -75,28 +75,12 @@ pub inline fn Alloc(ptr: ?*const anyopaque, size: usize) void {
 pub inline fn Free(ptr: ?*const anyopaque) void {
     _ = ptr;
 }
-pub inline fn SecureAlloc(ptr: ?*const anyopaque, size: usize) void {
-    _ = ptr;
-    _ = size;
-}
-pub inline fn SecureFree(ptr: ?*const anyopaque) void {
-    _ = ptr;
-}
 pub inline fn AllocS(ptr: ?*const anyopaque, size: usize, depth: c_int) void {
     _ = ptr;
     _ = size;
     _ = depth;
 }
 pub inline fn FreeS(ptr: ?*const anyopaque, depth: c_int) void {
-    _ = ptr;
-    _ = depth;
-}
-pub inline fn SecureAllocS(ptr: ?*const anyopaque, size: usize, depth: c_int) void {
-    _ = ptr;
-    _ = size;
-    _ = depth;
-}
-pub inline fn SecureFreeS(ptr: ?*const anyopaque, depth: c_int) void {
     _ = ptr;
     _ = depth;
 }
@@ -110,15 +94,6 @@ pub inline fn FreeN(ptr: ?*const anyopaque, name: [*:0]const u8) void {
     _ = ptr;
     _ = name;
 }
-pub inline fn SecureAllocN(ptr: ?*const anyopaque, size: usize, name: [*:0]const u8) void {
-    _ = ptr;
-    _ = size;
-    _ = name;
-}
-pub inline fn SecureFreeN(ptr: ?*const anyopaque, name: [*:0]const u8) void {
-    _ = ptr;
-    _ = name;
-}
 pub inline fn AllocNS(ptr: ?*const anyopaque, size: usize, depth: c_int, name: [*:0]const u8) void {
     _ = ptr;
     _ = size;
@@ -126,17 +101,6 @@ pub inline fn AllocNS(ptr: ?*const anyopaque, size: usize, depth: c_int, name: [
     _ = name;
 }
 pub inline fn FreeNS(ptr: ?*const anyopaque, depth: c_int, name: [*:0]const u8) void {
-    _ = ptr;
-    _ = depth;
-    _ = name;
-}
-pub inline fn SecureAllocNS(ptr: ?*const anyopaque, size: usize, depth: c_int, name: [*:0]const u8) void {
-    _ = ptr;
-    _ = size;
-    _ = depth;
-    _ = name;
-}
-pub inline fn SecureFreeNS(ptr: ?*const anyopaque, depth: c_int, name: [*:0]const u8) void {
     _ = ptr;
     _ = depth;
     _ = name;

@@ -35,23 +35,15 @@ pub const ZoneNCS = if (enabled) impl.ZoneNCS else stub.ZoneNCS;
 
 pub const Alloc = if (enabled) impl.Alloc else stub.Alloc;
 pub const Free = if (enabled) impl.Free else stub.Free;
-pub const SecureAlloc = if (enabled) impl.SecureAlloc else stub.SecureAlloc;
-pub const SecureFree = if (enabled) impl.SecureFree else stub.SecureFree;
 
 pub const AllocS = if (enabled) impl.AllocS else stub.AllocS;
 pub const FreeS = if (enabled) impl.FreeS else stub.FreeS;
-pub const SecureAllocS = if (enabled) impl.SecureAllocS else stub.SecureAllocS;
-pub const SecureFreeS = if (enabled) impl.SecureFreeS else stub.SecureFreeS;
 
 pub const AllocN = if (enabled) impl.AllocN else stub.AllocN;
 pub const FreeN = if (enabled) impl.FreeN else stub.FreeN;
-pub const SecureAllocN = if (enabled) impl.SecureAllocN else stub.SecureAllocN;
-pub const SecureFreeN = if (enabled) impl.SecureFreeN else stub.SecureFreeN;
 
 pub const AllocNS = if (enabled) impl.AllocNS else stub.AllocNS;
 pub const FreeNS = if (enabled) impl.FreeNS else stub.FreeNS;
-pub const SecureAllocNS = if (enabled) impl.SecureAllocNS else stub.SecureAllocNS;
-pub const SecureFreeNS = if (enabled) impl.SecureFreeNS else stub.SecureFreeNS;
 
 pub const Message = if (enabled) impl.Message else stub.Message;
 pub const MessageL = if (enabled) impl.MessageL else stub.MessageL;

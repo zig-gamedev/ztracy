@@ -85,8 +85,14 @@ pub fn build(b: *std.Build) void {
     });
 
     if (options.enable_ztracy) tracy.root_module.addCMacro("TRACY_ENABLE", "");
-    if (options.enable_fibers) tracy.root_module.addCMacro("TRACY_FIBERS", "");
-    if (options.on_demand) tracy.root_module.addCMacro("TRACY_ON_DEMAND", "");
+    if (options.enable_fibers) {
+        tracy.root_module.addCMacro("TRACY_FIBERS", "");
+        translate_c.defineCMacro("TRACY_FIBERS", "");
+    }
+    if (options.on_demand) {
+        tracy.root_module.addCMacro("TRACY_ON_DEMAND", "");
+        translate_c.defineCMacro("TRACY_ON_DEMAND", "");
+    }
 
     tracy.root_module.link_libc = true;
     if (target.result.abi != .msvc) {

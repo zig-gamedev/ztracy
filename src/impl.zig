@@ -126,145 +126,89 @@ pub inline fn ZoneNCS(comptime src: Src, name: [*:0]const u8, color: u32, depth:
 
 pub inline fn Alloc(ptr: ?*const anyopaque, size: usize) void {
     if (has_callstack_support) {
-        c.___tracy_emit_memory_alloc_callstack(ptr, size, callstack_depth, 0);
+        c.___tracy_emit_memory_alloc_callstack(ptr, size, callstack_depth);
     } else {
-        c.___tracy_emit_memory_alloc(ptr, size, 0);
+        c.___tracy_emit_memory_alloc(ptr, size);
     }
 }
 pub inline fn Free(ptr: ?*const anyopaque) void {
     if (has_callstack_support) {
-        c.___tracy_emit_memory_free_callstack(ptr, callstack_depth, 0);
+        c.___tracy_emit_memory_free_callstack(ptr, callstack_depth);
     } else {
-        c.___tracy_emit_memory_free(ptr, 0);
-    }
-}
-pub inline fn SecureAlloc(ptr: ?*const anyopaque, size: usize) void {
-    if (has_callstack_support) {
-        c.___tracy_emit_memory_alloc_callstack(ptr, size, callstack_depth, 1);
-    } else {
-        c.___tracy_emit_memory_alloc(ptr, size, 1);
-    }
-}
-pub inline fn SecureFree(ptr: ?*const anyopaque) void {
-    if (has_callstack_support) {
-        c.___tracy_emit_memory_free_callstack(ptr, callstack_depth, 1);
-    } else {
-        c.___tracy_emit_memory_free(ptr, 1);
+        c.___tracy_emit_memory_free(ptr);
     }
 }
 pub inline fn AllocS(ptr: ?*const anyopaque, size: usize, depth: c_int) void {
     if (has_callstack_support) {
-        c.___tracy_emit_memory_alloc_callstack(ptr, size, depth, 0);
+        c.___tracy_emit_memory_alloc_callstack(ptr, size, depth);
     } else {
-        c.___tracy_emit_memory_alloc(ptr, size, 0);
+        c.___tracy_emit_memory_alloc(ptr, size);
     }
 }
 pub inline fn FreeS(ptr: ?*const anyopaque, depth: c_int) void {
     if (has_callstack_support) {
-        c.___tracy_emit_memory_free_callstack(ptr, depth, 0);
+        c.___tracy_emit_memory_free_callstack(ptr, depth);
     } else {
-        c.___tracy_emit_memory_free(ptr, 0);
-    }
-}
-pub inline fn SecureAllocS(ptr: ?*const anyopaque, size: usize, depth: c_int) void {
-    if (has_callstack_support) {
-        c.___tracy_emit_memory_alloc_callstack(ptr, size, depth, 1);
-    } else {
-        c.___tracy_emit_memory_alloc(ptr, size, 1);
-    }
-}
-pub inline fn SecureFreeS(ptr: ?*const anyopaque, depth: c_int) void {
-    if (has_callstack_support) {
-        c.___tracy_emit_memory_free_callstack(ptr, depth, 1);
-    } else {
-        c.___tracy_emit_memory_free(ptr, 1);
+        c.___tracy_emit_memory_free(ptr);
     }
 }
 
 pub inline fn AllocN(ptr: ?*const anyopaque, size: usize, name: [*:0]const u8) void {
     if (has_callstack_support) {
-        c.___tracy_emit_memory_alloc_callstack_named(ptr, size, callstack_depth, 0, name);
+        c.___tracy_emit_memory_alloc_callstack_named(ptr, size, callstack_depth, name);
     } else {
-        c.___tracy_emit_memory_alloc_named(ptr, size, 0, name);
+        c.___tracy_emit_memory_alloc_named(ptr, size, name);
     }
 }
 pub inline fn FreeN(ptr: ?*const anyopaque, name: [*:0]const u8) void {
     if (has_callstack_support) {
-        c.___tracy_emit_memory_free_callstack_named(ptr, callstack_depth, 0, name);
+        c.___tracy_emit_memory_free_callstack_named(ptr, callstack_depth, name);
     } else {
-        c.___tracy_emit_memory_free_named(ptr, 0, name);
-    }
-}
-pub inline fn SecureAllocN(ptr: ?*const anyopaque, size: usize, name: [*:0]const u8) void {
-    if (has_callstack_support) {
-        c.___tracy_emit_memory_alloc_callstack_named(ptr, size, callstack_depth, 1, name);
-    } else {
-        c.___tracy_emit_memory_alloc_named(ptr, size, 1, name);
-    }
-}
-pub inline fn SecureFreeN(ptr: ?*const anyopaque, name: [*:0]const u8) void {
-    if (has_callstack_support) {
-        c.___tracy_emit_memory_free_callstack_named(ptr, callstack_depth, 1, name);
-    } else {
-        c.___tracy_emit_memory_free_named(ptr, 1, name);
+        c.___tracy_emit_memory_free_named(ptr, name);
     }
 }
 pub inline fn AllocNS(ptr: ?*const anyopaque, size: usize, depth: c_int, name: [*:0]const u8) void {
     if (has_callstack_support) {
-        c.___tracy_emit_memory_alloc_callstack_named(ptr, size, depth, 0, name);
+        c.___tracy_emit_memory_alloc_callstack_named(ptr, size, depth, name);
     } else {
-        c.___tracy_emit_memory_alloc_named(ptr, size, 0, name);
+        c.___tracy_emit_memory_alloc_named(ptr, size, name);
     }
 }
 pub inline fn FreeNS(ptr: ?*const anyopaque, depth: c_int, name: [*:0]const u8) void {
     if (has_callstack_support) {
-        c.___tracy_emit_memory_free_callstack_named(ptr, depth, 0, name);
+        c.___tracy_emit_memory_free_callstack_named(ptr, depth, name);
     } else {
-        c.___tracy_emit_memory_free_named(ptr, 0, name);
-    }
-}
-pub inline fn SecureAllocNS(ptr: ?*const anyopaque, size: usize, depth: c_int, name: [*:0]const u8) void {
-    if (has_callstack_support) {
-        c.___tracy_emit_memory_alloc_callstack_named(ptr, size, depth, 1, name);
-    } else {
-        c.___tracy_emit_memory_alloc_named(ptr, size, 1, name);
-    }
-}
-pub inline fn SecureFreeNS(ptr: ?*const anyopaque, depth: c_int, name: [*:0]const u8) void {
-    if (has_callstack_support) {
-        c.___tracy_emit_memory_free_callstack_named(ptr, depth, 1, name);
-    } else {
-        c.___tracy_emit_memory_free_named(ptr, 1, name);
+        c.___tracy_emit_memory_free_named(ptr, name);
     }
 }
 
 pub inline fn Message(text: []const u8) void {
-    c.___tracy_emit_message(text.ptr, text.len, callstack_depth);
+    c.___tracy_emit_logString(c.TracyMessageSeverityInfo, 0, callstack_depth, text.len, text.ptr);
 }
 pub inline fn MessageL(text: [*:0]const u8, color: u32) void {
-    c.___tracy_emit_messageL(text, color, callstack_depth);
+    c.___tracy_emit_logStringL(c.TracyMessageSeverityInfo, @bitCast(color), callstack_depth, text.ptr);
 }
 pub inline fn MessageC(text: []const u8, color: u32) void {
-    c.___tracy_emit_messageC(text.ptr, text.len, color, callstack_depth);
+    c.___tracy_emit_logString(c.TracyMessageSeverityInfo, @bitCast(color), callstack_depth, text.len, text.ptr);
 }
 pub inline fn MessageLC(text: [*:0]const u8, color: u32) void {
-    c.___tracy_emit_messageLC(text, color, callstack_depth);
+    c.___tracy_emit_logStringL(c.TracyMessageSeverityInfo, @bitCast(color), callstack_depth, text.ptr);
 }
 pub inline fn MessageS(text: []const u8, depth: c_int) void {
     const inner_depth: c_int = if (has_callstack_support) depth else 0;
-    c.___tracy_emit_message(text.ptr, text.len, inner_depth);
+    c.___tracy_emit_logString(c.TracyMessageSeverityInfo, 0, inner_depth, text.len, text.ptr);
 }
 pub inline fn MessageLS(text: [*:0]const u8, depth: c_int) void {
     const inner_depth: c_int = if (has_callstack_support) depth else 0;
-    c.___tracy_emit_messageL(text, inner_depth);
+    c.___tracy_emit_logStringL(c.TracyMessageSeverityInfo, 0, inner_depth, text.ptr);
 }
 pub inline fn MessageCS(text: []const u8, color: u32, depth: c_int) void {
     const inner_depth: c_int = if (has_callstack_support) depth else 0;
-    c.___tracy_emit_messageC(text.ptr, text.len, color, inner_depth);
+    c.___tracy_emit_logString(c.TracyMessageSeverityInfo, @bitCast(color), inner_depth, text.len, text.ptr);
 }
 pub inline fn MessageLCS(text: [*:0]const u8, color: u32, depth: c_int) void {
     const inner_depth: c_int = if (has_callstack_support) depth else 0;
-    c.___tracy_emit_messageLC(text, color, inner_depth);
+    c.___tracy_emit_logStringL(c.TracyMessageSeverityInfo, @bitCast(color), inner_depth, text.ptr);
 }
 
 pub inline fn FrameMark() void {
