@@ -107,6 +107,7 @@ pub fn build(b: *std.Build) void {
         .windows => {
             tracy.root_module.linkSystemLibrary("ws2_32", .{});
             tracy.root_module.linkSystemLibrary("dbghelp", .{});
+            tracy.root_module.linkSystemLibrary("secur32", .{});
         },
         .macos => {
             if (b.lazyDependency("system_sdk", .{})) |system_sdk| {
