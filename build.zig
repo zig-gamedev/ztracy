@@ -33,8 +33,10 @@ pub fn build(b: *std.Build) void {
     };
 
     const options_step = b.addOptions();
-    inline for (std.meta.fields(@TypeOf(options))) |field| {
-        options_step.addOption(field.type, field.name, @field(options, field.name));
+    const field_names = comptime std.meta.fieldNames(@TypeOf(options));
+    const field_types = comptime std.meta.fieldTypes(@TypeOf(options));
+    inline for (field_names, field_types) |field_name, field_type| {
+        options_step.addOption(field_type, field_name, @field(options, field_name));
     }
 
     const options_module = options_step.createModule();
@@ -105,6 +107,7 @@ pub fn build(b: *std.Build) void {
         .windows => {
             tracy.root_module.linkSystemLibrary("ws2_32", .{});
             tracy.root_module.linkSystemLibrary("dbghelp", .{});
+            tracy.root_module.linkSystemLibrary("secur32", .{});
         },
         .macos => {
             if (b.lazyDependency("system_sdk", .{})) |system_sdk| {
